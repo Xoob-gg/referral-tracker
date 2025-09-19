@@ -1,0 +1,22 @@
+{
+  "name": "referral-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild src/tracker.js --bundle --minify --outfile=dist/tracker.min.js",
+    "build:dev": "esbuild src/tracker.js --bundle --outfile=dist/tracker.js",
+    "watch": "esbuild src/tracker.js --bundle --outfile=dist/tracker.js --watch",
+    "serve": "npx serve . -p 3000",
+    "dev": "npm run build:dev && npm run serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.0",
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "serve": "14.2.5"
+  }
+}
