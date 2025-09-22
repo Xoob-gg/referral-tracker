@@ -146,12 +146,10 @@
 
         // Location and time
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        timezoneOffset: new Date().getTimezoneOffset(),
 
         // Page information
         referrer: document.referrer,
         currentUrl: window.location.href,
-        timestamp: Date.now(),
 
         // Session tracking
         sessionId: this.sessionId,
