@@ -9,7 +9,9 @@
     "watch": "esbuild src/tracker.js --bundle --outfile=dist/tracker.js --watch",
     "serve": "npx serve . -p 3000",
     "dev": "npm run build:dev && npm run serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +19,8 @@
   "packageManager": "pnpm@10.8.0",
   "devDependencies": {
     "esbuild": "0.25.10",
-    "serve": "14.2.5"
+    "serve": "14.2.5",
+    "vitest": "3.0.5",
+    "jsdom": "25.0.1"
   }
 }
