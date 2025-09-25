@@ -4,7 +4,9 @@
   class ReferralTracker {
     constructor(serverUrl) {
       // Fallback to default server URL if not provided
-      this.serverUrl = serverUrl || "https://api.xoob.gg/referral";
+      this.serverUrl =
+        serverUrl ||
+        "https://quest-platform-development.up.railway.app/api/tracking/events";
       this.referralHash = null;
       this.sessionId = this.generateSessionId();
       this.walletConnected = false;
