@@ -316,6 +316,9 @@
         const serverUrl = script.getAttribute("data-referral-tracker-url");
         window.ReferralTracker = ReferralTracker;
         window.referralTracker = new ReferralTracker(serverUrl);
+      } else {
+        window.ReferralTracker = ReferralTracker;
+        window.referralTracker = new ReferralTracker();
       }
     });
 
