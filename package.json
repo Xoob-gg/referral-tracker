@@ -1,8 +1,8 @@
 {
-  "name": "referral-tracker",
+  "name": "@xoob-gg/referral-tracker",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Client-side referral tracking script for EVM wallet connections",
+  "main": "dist/tracker.min.js",
   "scripts": {
     "build": "esbuild src/tracker.js --bundle --minify --outfile=dist/tracker.min.js",
     "build:dev": "esbuild src/tracker.js --bundle --outfile=dist/tracker.js",
@@ -13,9 +13,24 @@
     "test:watch": "vitest",
     "coverage": "vitest run --coverage"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xoob-gg/referral-tracker.git"
+  },
+  "keywords": [
+    "referral",
+    "tracking",
+    "wallet",
+    "evm",
+    "ethereum",
+    "web3"
+  ],
+  "author": "Xoob",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Xoob-gg/referral-tracker/issues"
+  },
+  "homepage": "https://github.com/Xoob-gg/referral-tracker#readme",
   "packageManager": "pnpm@10.8.0",
   "devDependencies": {
     "esbuild": "0.25.10",

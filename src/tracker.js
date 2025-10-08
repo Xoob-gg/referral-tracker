@@ -2,20 +2,22 @@
   "use strict";
 
   class ReferralTracker {
-    constructor(serverUrl) {
+    constructor(serverUrl, options = {}) {
       // Fallback to default server URL if not provided
       this.serverUrl =
         serverUrl ||
         "https://quest-platform-development.up.railway.app/api/tracking/events";
-      this.referralHash = null;
       this.sessionId = this.generateSessionId();
       this.walletConnected = false;
+      // Referral hash TTL in milliseconds (default: 30 days)
+      this.referralTTL = options.referralTTL || 30 * 24 * 60 * 60 * 1000;
+      this.storageKey = "xoob_referral_tracker_data";
       this.init();
     }
 
     init() {
       this.detectReferralHash();
-      if (this.referralHash) {
+      if (this.getReferralHash()) {
         this.setupWalletListener();
       }
     }
@@ -24,23 +26,109 @@
       return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     }
 
+    #parseReferralHash() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const hashParams = new URLSearchParams(
+        window.location.hash.replace("#", "")
+      );
+      return (
+        urlParams.get("ref") ||
+        urlParams.get("referral") ||
+        hashParams.get("ref") ||
+        hashParams.get("referral") ||
+        null
+      );
+    }
     detectReferralHash() {
+      // Check if already stored
+      const stored = this.getReferralHash();
+      if (stored) {
+        console.log(
+          "[ReferralTracker] Referral hash loaded from storage:",
+          stored
+        );
+        return;
+      }
+
+      // Check URL parameters
       const urlParams = new URLSearchParams(window.location.search);
       const hashParams = new URLSearchParams(
         window.location.hash.replace("#", "")
       );
 
-      this.referralHash =
-        urlParams.get("ref") ||
-        urlParams.get("referral") ||
-        hashParams.get("ref") ||
-        hashParams.get("referral") ||
-        null;
+      const urlHash = this.#parseReferralHash();
 
-      if (this.referralHash) {
+      if (!urlHash) {
+        return;
+      }
+
+      console.log("[ReferralTracker] Referral hash detected:", urlHash);
+      // Store the referral hash with expiration
+      this.storeReferral(urlHash);
+    }
+
+    storeReferral(hash) {
+      if (!window.localStorage) {
+        return this.#parseReferralHash();
+      }
+
+      const data = {
+        hash: hash,
+        timestamp: Date.now(),
+        expiresAt: Date.now() + this.referralTTL,
+      };
+
+      try {
+        localStorage.setItem(this.storageKey, JSON.stringify(data));
+        console.log("[ReferralTracker] Referral hash stored in localStorage");
+      } catch (error) {
+        console.error(
+          "[ReferralTracker] Failed to store referral hash:",
+          error
+        );
+      }
+    }
+
+    getReferralHash() {
+      if (!window.localStorage) return null;
+
+      try {
+        const stored = localStorage.getItem(this.storageKey);
+        if (!stored) return null;
+
+        const data = JSON.parse(stored);
+
+        // Check if expired
+        if (data.expiresAt && Date.now() > data.expiresAt) {
+          console.log(
+            "[ReferralTracker] Stored referral hash expired, clearing"
+          );
+          this.clearStoredReferral();
+          return null;
+        }
+
+        return data.hash;
+      } catch (error) {
+        console.error(
+          "[ReferralTracker] Failed to retrieve stored referral:",
+          error
+        );
+        return null;
+      }
+    }
+
+    clearStoredReferral() {
+      if (!window.localStorage) return;
+
+      try {
+        localStorage.removeItem(this.storageKey);
         console.log(
-          "[ReferralTracker] Referral hash detected:",
-          this.referralHash
+          "[ReferralTracker] Referral hash cleared from localStorage"
+        );
+      } catch (error) {
+        console.error(
+          "[ReferralTracker] Failed to clear stored referral:",
+          error
         );
       }
     }
@@ -128,7 +216,8 @@
     }
 
     handleWalletAddress(address) {
-      if (!this.referralHash || this.walletConnected) {
+      const referralHash = this.getReferralHash();
+      if (!referralHash || this.walletConnected) {
         return;
       }
 
@@ -161,11 +250,12 @@
     }
 
     async sendReferralData(walletAddress, metadata) {
-      if (!this.referralHash) return;
+      const referralHash = this.getReferralHash();
+      if (!referralHash) return;
 
       const data = {
         walletAddress: walletAddress,
-        referralHash: this.referralHash,
+        referralHash: referralHash,
         metadata: metadata,
       };
 
@@ -180,6 +270,8 @@
 
         if (response.ok) {
           console.log("[ReferralTracker] Referral data sent successfully");
+          // Clear stored referral hash after successful tracking
+          this.clearStoredReferral();
           // Store success in sessionStorage to prevent duplicate sends
           if (window.sessionStorage) {
             sessionStorage.setItem("referralTracked", "true");
@@ -198,7 +290,7 @@
 
     // Manual method to track wallet if automatic detection fails
     manualTrackWallet(walletAddress) {
-      if (!this.walletConnected && this.referralHash) {
+      if (!this.walletConnected && this.getReferralHash()) {
         this.handleWalletAddress(walletAddress);
       }
     }
@@ -210,7 +302,7 @@
 
     // Method to check if tracking is needed
     isTrackingNeeded() {
-      return this.referralHash && !this.walletConnected;
+      return this.getReferralHash();
     }
   }
 
