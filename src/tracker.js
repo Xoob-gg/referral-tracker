@@ -302,7 +302,7 @@
 
     // Method to check if tracking is needed
     isTrackingNeeded() {
-      return this.getReferralHash() && !this.walletConnected;
+      return this.getReferralHash();
     }
   }
 
