@@ -314,10 +314,8 @@
       );
       if (script) {
         const serverUrl = script.getAttribute("data-referral-tracker-url");
-        if (serverUrl) {
-          window.ReferralTracker = ReferralTracker;
-          window.referralTracker = new ReferralTracker(serverUrl);
-        }
+        window.ReferralTracker = ReferralTracker;
+        window.referralTracker = new ReferralTracker(serverUrl);
       }
     });
 
