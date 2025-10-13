@@ -156,8 +156,17 @@
         </div>
     </div>
 
-    <!-- Include the tracker script from CDN -->
-    <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js" data-referral-tracker-url="https://quest-platform-development.up.railway.app/api/tracking/events"></script>
+    <!-- Include the tracker script -->
+    <!-- Option 1: Auto-initialize with data attribute -->
+    <script src="src/tracker.js" data-referral-tracker-url="https://quest-platform-development.up.railway.app/api/tracking/events"></script>
+
+    <!-- Option 2: Manual initialization (uncomment to use) -->
+    <!--
+    <script src="src/tracker.js"></script>
+    <script>
+        window.referralTracker = new ReferralTracker('http://localhost:3001/api/referral');
+    </script>
+    -->
 
     <script>
         // Override console.log to display in UI
