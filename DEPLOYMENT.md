@@ -12,9 +12,16 @@ This project uses GitHub Releases + jsDelivr CDN for distribution. When you crea
 # Build locally to verify (optional)
 pnpm run build
 
-# Create and push a version tag
-git tag v1.0.0
-git push origin v1.0.0
+# Bump version (automatically updates package.json, creates commit & tag)
+pnpm version patch   # 1.0.0 -> 1.0.1 (bug fixes)
+pnpm version minor   # 1.0.0 -> 1.1.0 (new features)
+pnpm version major   # 1.0.0 -> 2.0.0 (breaking changes)
+
+# Or set specific version
+pnpm version 1.2.3
+
+# Push the version commit and tag
+git push origin main --tags
 ```
 
 GitHub Actions will automatically:
@@ -23,26 +30,31 @@ GitHub Actions will automatically:
 - Attach `tracker.min.js` to the release
 - Make it available on jsDelivr CDN
 
+**Note:** `pnpm version` automatically:
+- Updates `package.json` version
+- Creates a git commit (e.g., "1.0.1")
+- Creates a git tag (e.g., "v1.0.1")
+
 ### 2. Use the CDN URL
 
 Your script will be available at:
 
 ```html
 <!-- Specific version (RECOMMENDED for production) -->
-<script src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker@v1.0.0/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/tracker.min.js"></script>
 
 <!-- Always latest version -->
-<script src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker@latest/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
 
 <!-- Shortest form (also uses latest) -->
-<script src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker/tracker.min.js"></script>
 ```
 
 ### 3. With Auto-initialization
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker@latest/tracker.min.js"
+  src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
   data-referral-tracker-url="https://your-api.com/track"
 ></script>
 ```
@@ -64,18 +76,28 @@ Your script will be available at:
 
 ### Creating Releases
 
+**Recommended: Use `pnpm version`**
+
 ```bash
 # Patch release (bug fix)
-git tag v1.0.1
-git push origin v1.0.1
+pnpm version patch
+git push origin main --tags
 
 # Minor release (new feature)
-git tag v1.1.0
-git push origin v1.1.0
+pnpm version minor
+git push origin main --tags
 
 # Major release (breaking change)
-git tag v2.0.0
-git push origin v2.0.0
+pnpm version major
+git push origin main --tags
+```
+
+**Alternative: Manual tagging**
+
+```bash
+# Update package.json version manually, then:
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
 ## Workflow
@@ -87,7 +109,7 @@ git push origin v2.0.0
    ```bash
    git checkout main
    git merge dev
-   git tag v1.0.1
+   pnpm version patch  # or minor/major
    git push origin main --tags
    ```
 5. GitHub Actions builds and releases automatically
@@ -95,8 +117,8 @@ git push origin v2.0.0
 
 ## Monitoring Deployments
 
-- **GitHub Actions**: `https://github.com/xoob/referral-tracker/actions`
-- **Releases**: `https://github.com/xoob/referral-tracker/releases`
+- **GitHub Actions**: `https://github.com/Xoob-gg/referral-tracker/actions`
+- **Releases**: `https://github.com/Xoob-gg/referral-tracker/releases`
 - **CDN Status**: `https://www.jsdelivr.com/package/gh/xoob/referral-tracker`
 
 ## CDN Cache Management
@@ -110,12 +132,12 @@ jsDelivr automatically caches releases:
 
 1. **Always use specific versions in production**:
    ```html
-   <script src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker@v1.0.0/tracker.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/tracker.min.js"></script>
    ```
 
 2. **Use `@latest` for development/testing only**:
    ```html
-   <script src="https://cdn.jsdelivr.net/gh/xoob/referral-tracker@latest/tracker.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
    ```
 
 3. **Test before releasing**:
@@ -130,7 +152,7 @@ jsDelivr automatically caches releases:
 
 **CDN not updating:**
 - Wait a few minutes after release
-- Check if release exists: `https://github.com/xoob/referral-tracker/releases`
+- Check if release exists: `https://github.com/Xoob-gg/referral-tracker/releases`
 - Purge cache manually using purge URL above
 
 **404 on jsDelivr:**
