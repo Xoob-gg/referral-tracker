@@ -41,20 +41,20 @@ Your script will be available at:
 
 ```html
 <!-- Specific version (RECOMMENDED for production) -->
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/dist/tracker.min.js"></script>
 
 <!-- Always latest version -->
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"></script>
 
 <!-- Shortest form (also uses latest) -->
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker/dist/tracker.min.js"></script>
 ```
 
 ### 3. With Auto-initialization
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+  src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
   data-referral-tracker-url="https://your-api.com/track"
 ></script>
 ```
@@ -132,12 +132,12 @@ jsDelivr automatically caches releases:
 
 1. **Always use specific versions in production**:
    ```html
-   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/tracker.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/dist/tracker.min.js"></script>
    ```
 
 2. **Use `@latest` for development/testing only**:
    ```html
-   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"></script>
    ```
 
 3. **Test before releasing**:

@@ -9,7 +9,7 @@ Client-side referral tracking script for EVM wallet connections. Automatically d
 ```html
 <!-- Auto-initialization -->
 <script
-  src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+  src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
   data-referral-tracker-url="https://your-server.com/api/track"
 ></script>
 ```
@@ -17,7 +17,7 @@ Client-side referral tracking script for EVM wallet connections. Automatically d
 ### Manual Initialization
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"></script>
 <script>
   new ReferralTracker('https://your-server.com/api/track');
 </script>
@@ -27,7 +27,7 @@ Client-side referral tracking script for EVM wallet connections. Automatically d
 
 ```html
 <!-- Pin to specific version -->
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@v1.0.0/dist/tracker.min.js"></script>
 ```
 
 ## How It Works
@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
     <html>
       <head>
         <Script
-          src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+          src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
           data-referral-tracker-url="https://api.yourapp.com/track-referral"
           strategy="afterInteractive"
         />
@@ -71,7 +71,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Script
-        src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+        src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
         data-referral-tracker-url="https://api.yourapp.com/track-referral"
         strategy="afterInteractive"
       />
@@ -92,7 +92,7 @@ import { useEffect } from 'react';
 function App() {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js';
     script.setAttribute('data-referral-tracker-url', 'https://api.yourapp.com/track-referral');
     document.head.appendChild(script);
 
@@ -113,7 +113,7 @@ Or simply add to `index.html`:
 <html>
   <head>
     <script
-      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
       data-referral-tracker-url="https://api.yourapp.com/track-referral"
     ></script>
   </head>
@@ -137,7 +137,7 @@ Or simply add to `index.html`:
 export default {
   mounted() {
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js';
     script.setAttribute('data-referral-tracker-url', 'https://api.yourapp.com/track-referral');
     document.head.appendChild(script);
   }
@@ -153,7 +153,7 @@ Or in `index.html`:
 <html>
   <head>
     <script
-      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
       data-referral-tracker-url="https://api.yourapp.com/track-referral"
     ></script>
   </head>
@@ -171,7 +171,7 @@ Or in `index.html`:
   <head>
     <!-- Auto-initialization -->
     <script
-      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+      src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
       data-referral-tracker-url="https://api.yourapp.com/track-referral"
     ></script>
   </head>
@@ -184,7 +184,7 @@ Or in `index.html`:
 ### With Web3Modal
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/web3modal@latest/dist/index.js"></script>
 
 <script>
@@ -217,7 +217,7 @@ function App() {
   useEffect(() => {
     // Load tracker script
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js';
+    script.src = 'https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js';
     script.setAttribute('data-referral-tracker-url', 'https://api.yourapp.com/track-referral');
     document.head.appendChild(script);
   }, []);
@@ -243,7 +243,7 @@ function App() {
   return (
     <>
       <Script
-        src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/tracker.min.js"
+        src="https://cdn.jsdelivr.net/gh/Xoob-gg/referral-tracker@latest/dist/tracker.min.js"
         data-referral-tracker-url="https://api.yourapp.com/track-referral"
       />
       <WagmiConfig client={wagmiClient}>
