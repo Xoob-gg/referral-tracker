@@ -103,7 +103,7 @@
           console.log(
             "[ReferralTracker] Stored referral hash expired, clearing"
           );
-          this.clearStoredReferral();
+
           return null;
         }
 
@@ -114,22 +114,6 @@
           error
         );
         return null;
-      }
-    }
-
-    clearStoredReferral() {
-      if (!window.localStorage) return;
-
-      try {
-        localStorage.removeItem(this.storageKey);
-        console.log(
-          "[ReferralTracker] Referral hash cleared from localStorage"
-        );
-      } catch (error) {
-        console.error(
-          "[ReferralTracker] Failed to clear stored referral:",
-          error
-        );
       }
     }
 
@@ -270,8 +254,6 @@
 
         if (response.ok) {
           console.log("[ReferralTracker] Referral data sent successfully");
-          // Clear stored referral hash after successful tracking
-          this.clearStoredReferral();
           // Store success in sessionStorage to prevent duplicate sends
           if (window.sessionStorage) {
             sessionStorage.setItem("referralTracked", "true");
