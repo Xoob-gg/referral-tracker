@@ -1,6 +1,6 @@
 {
   "name": "@xoob-gg/referral-tracker",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Client-side referral tracking script for EVM wallet connections",
   "main": "dist/tracker.min.js",
   "scripts": {
