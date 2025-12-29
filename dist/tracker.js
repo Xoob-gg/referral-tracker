@@ -4,7 +4,7 @@
     "use strict";
     class ReferralTracker {
       constructor(serverUrl, options = {}) {
-        this.serverUrl = serverUrl || "https://quest-platform-development.up.railway.app/api/tracking/events";
+        this.serverUrl = serverUrl || "https://api.xoob.quest/api/tracking/events";
         this.sessionId = this.generateSessionId();
         this.walletConnected = false;
         this.referralTTL = options.referralTTL || 30 * 24 * 60 * 60 * 1e3;
