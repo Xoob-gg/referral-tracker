@@ -289,7 +289,7 @@
 
   // Auto-initialize if data attributes are present
   if (typeof window !== "undefined") {
-    window.addEventListener("DOMContentLoaded", () => {
+    const initTracker = () => {
       let serverUrl = null;
       const script = document.querySelector(
         "script[data-referral-tracker-url]"
@@ -301,7 +301,15 @@
 
       window.ReferralTracker = ReferralTracker;
       window.referralTracker = new ReferralTracker(serverUrl);
-    });
+    };
+
+    // Handle case where script loads after DOMContentLoaded has already fired
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", initTracker);
+    } else {
+      // DOM already loaded, init immediately
+      initTracker();
+    }
 
     // Also expose the class globally for manual initialization
     window.ReferralTracker = ReferralTracker;
