@@ -5,7 +5,7 @@
     constructor(serverUrl, options = {}) {
       // Fallback to default server URL if not provided
       this.serverUrl =
-        serverUrl || "https://api.xoob.quest/api/tracking/events";
+        serverUrl || "https://api.xoob.link/api/tracking/events";
       this.sessionId = this.generateSessionId();
       this.walletConnected = false;
       // Referral hash TTL in milliseconds (default: 30 days)
