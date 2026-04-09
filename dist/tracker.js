@@ -1,10 +1,11 @@
 (() => {
   // src/tracker.js
-  (function() {
+  (function () {
     "use strict";
     class ReferralTracker {
       constructor(serverUrl, options = {}) {
-        this.serverUrl = serverUrl || "https://api.xoob.quest/api/tracking/events";
+        this.serverUrl =
+          serverUrl || "https://api.xoob.link/api/tracking/events";
         this.sessionId = this.generateSessionId();
         this.walletConnected = false;
         this.referralTTL = options.referralTTL || 30 * 24 * 60 * 60 * 1e3;
@@ -23,22 +24,28 @@
       #parseReferralHash() {
         const urlParams = new URLSearchParams(window.location.search);
         const hashParams = new URLSearchParams(
-          window.location.hash.replace("#", "")
+          window.location.hash.replace("#", ""),
         );
-        return urlParams.get("ref") || urlParams.get("referral") || hashParams.get("ref") || hashParams.get("referral") || null;
+        return (
+          urlParams.get("ref") ||
+          urlParams.get("referral") ||
+          hashParams.get("ref") ||
+          hashParams.get("referral") ||
+          null
+        );
       }
       detectReferralHash() {
         const stored = this.getReferralHash();
         if (stored) {
           console.log(
             "[ReferralTracker] Referral hash loaded from storage:",
-            stored
+            stored,
           );
           return;
         }
         const urlParams = new URLSearchParams(window.location.search);
         const hashParams = new URLSearchParams(
-          window.location.hash.replace("#", "")
+          window.location.hash.replace("#", ""),
         );
         const urlHash = this.#parseReferralHash();
         if (!urlHash) {
@@ -54,7 +61,7 @@
         const data = {
           hash,
           timestamp: Date.now(),
-          expiresAt: Date.now() + this.referralTTL
+          expiresAt: Date.now() + this.referralTTL,
         };
         try {
           localStorage.setItem(this.storageKey, JSON.stringify(data));
@@ -62,7 +69,7 @@
         } catch (error) {
           console.error(
             "[ReferralTracker] Failed to store referral hash:",
-            error
+            error,
           );
         }
       }
@@ -74,7 +81,7 @@
           const data = JSON.parse(stored);
           if (data.expiresAt && Date.now() > data.expiresAt) {
             console.log(
-              "[ReferralTracker] Stored referral hash expired, clearing"
+              "[ReferralTracker] Stored referral hash expired, clearing",
             );
             this.clearStoredReferral();
             return null;
@@ -83,7 +90,7 @@
         } catch (error) {
           console.error(
             "[ReferralTracker] Failed to retrieve stored referral:",
-            error
+            error,
           );
           return null;
         }
@@ -93,12 +100,12 @@
         try {
           localStorage.removeItem(this.storageKey);
           console.log(
-            "[ReferralTracker] Referral hash cleared from localStorage"
+            "[ReferralTracker] Referral hash cleared from localStorage",
           );
         } catch (error) {
           console.error(
             "[ReferralTracker] Failed to clear stored referral:",
-            error
+            error,
           );
         }
       }
@@ -108,19 +115,19 @@
         }
         window.addEventListener(
           "walletConnected",
-          this.handleWalletConnection.bind(this)
+          this.handleWalletConnection.bind(this),
         );
         window.addEventListener(
           "Web3Modal:accountsChanged",
-          this.handleAccountsChanged.bind(this)
+          this.handleAccountsChanged.bind(this),
         );
         window.addEventListener(
           "walletconnect:connect",
-          this.handleWalletConnection.bind(this)
+          this.handleWalletConnection.bind(this),
         );
         window.addEventListener(
           "wallet:connected",
-          this.handleWalletConnection.bind(this)
+          this.handleWalletConnection.bind(this),
         );
       }
       setupEthereumListener() {
@@ -136,23 +143,31 @@
           this.handleWalletAddress(ethereum.selectedAddress);
         }
         if (ethereum.request) {
-          ethereum.request({ method: "eth_accounts" }).then((accounts) => {
-            if (accounts.length > 0 && !this.walletConnected) {
-              this.handleWalletAddress(accounts[0]);
-            }
-          }).catch((err) => {
-            console.error("[ReferralTracker] Error checking accounts:", err);
-          });
+          ethereum
+            .request({ method: "eth_accounts" })
+            .then((accounts) => {
+              if (accounts.length > 0 && !this.walletConnected) {
+                this.handleWalletAddress(accounts[0]);
+              }
+            })
+            .catch((err) => {
+              console.error("[ReferralTracker] Error checking accounts:", err);
+            });
         }
       }
       handleAccountsChanged(event) {
         const accounts = event.detail?.accounts || event.detail;
-        if (Array.isArray(accounts) && accounts.length > 0 && !this.walletConnected) {
+        if (
+          Array.isArray(accounts) &&
+          accounts.length > 0 &&
+          !this.walletConnected
+        ) {
           this.handleWalletAddress(accounts[0]);
         }
       }
       handleWalletConnection(event) {
-        const address = event.detail?.address || event.detail?.account || event.detail;
+        const address =
+          event.detail?.address || event.detail?.account || event.detail;
         if (address && !this.walletConnected) {
           this.handleWalletAddress(address);
         }
@@ -179,7 +194,7 @@
           referrer: document.referrer,
           currentUrl: window.location.href,
           // Session tracking
-          sessionId: this.sessionId
+          sessionId: this.sessionId,
         };
         return metadata;
       }
@@ -189,15 +204,15 @@
         const data = {
           walletAddress,
           referralHash,
-          metadata
+          metadata,
         };
         try {
           const response = await fetch(this.serverUrl, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
           });
           if (response.ok) {
             console.log("[ReferralTracker] Referral data sent successfully");
@@ -208,11 +223,14 @@
           } else {
             console.error(
               "[ReferralTracker] Failed to send referral data:",
-              response.statusText
+              response.statusText,
             );
           }
         } catch (error) {
-          console.error("[ReferralTracker] Error sending referral data:", error);
+          console.error(
+            "[ReferralTracker] Error sending referral data:",
+            error,
+          );
         }
       }
       // Manual method to track wallet if automatic detection fails
@@ -233,7 +251,7 @@
     if (typeof window !== "undefined") {
       window.addEventListener("DOMContentLoaded", () => {
         const script = document.querySelector(
-          "script[data-referral-tracker-url]"
+          "script[data-referral-tracker-url]",
         );
         if (script) {
           const serverUrl = script.getAttribute("data-referral-tracker-url");
